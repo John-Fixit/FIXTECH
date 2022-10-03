@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session')
 const { json } = require('express')
 require('dotenv').config()
 const mongoose = require('mongoose')
+const URI = process.env.MONGOLINK
 app.use(bodyParser.urlencoded({extended: true, limit: '100mb'}))
 app.use(json())
 app.use(cors(
@@ -17,17 +18,25 @@ app.use(cors(
         credentials: true
     }
 ))
-app.use(
-    cookieSession({
-        name:'session',
-        keys:['cyberwolve'],
-        maxAge: 24*60*60*100
-    })
-)
-app.use(
-    passport.initialize()
-)
-app.use(passport.session())
+mongoose.connect(URI, (err)=>{
+    if(err){
+        console.log(`Mongoose not connect`);
+    }
+    else{
+        console.log(`Mongoose connected`);
+    }
+})
+// app.use(
+//     cookieSession({
+//         name:'session',
+//         keys:['cyberwolve'],
+//         maxAge: 24*60*60*100
+//     })
+// )
+// app.use(
+//     passport.initialize()
+// )
+// app.use(passport.session())
 
 const PORT = process.env.PORT
 app.use('/', userRouter)
