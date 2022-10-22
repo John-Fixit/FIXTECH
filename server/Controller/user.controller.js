@@ -94,9 +94,27 @@ const googleCallback = (req, res) => {
   });
 };
 
+const authorizeFunc=(req, res)=>{
+  const token = req.headers.authorization.split(' ')[1]
+    jwt.verify(token, SECRET, (err, result)=>{
+      if(err){
+        res.json({message: `Internal server error! please check your connection`, status: false})
+      }else{
+        userModel.findOne({'accountNumber': result.accountNumber}, (err, user)=>{
+          if(err){
+            res.send({message: `Internal server error!`, status: false})
+          }else{
+            res.send({userDetail: user, status: true})  
+          }
+        })
+      }
+    })
+}
+
 module.exports = {
   getRes,
   signup,
   signin,
   googleCallback,
+  authorizeFunc
 };

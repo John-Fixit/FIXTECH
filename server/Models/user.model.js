@@ -5,9 +5,12 @@ const userSchema = new mongoose.Schema({
     lastname: String,
     phoneNumber: String,
     email: String,
-    accountNumber: String,
+    accountNumber: Number,
     totalAmount: String,
-    password: String
+    password: String,
+    profile_picture: {
+        typeof: String
+    }
 })
 
 let saltRound = 10
