@@ -10,7 +10,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const URI = process.env.MONGOLINK
 app.use(bodyParser.urlencoded({extended: true, limit: '100mb'}))
-app.use(json())
+app.use(json({limit: '100mb'}))
 app.use(cors(
     {
         origin: 'http://localhost:3000',

@@ -1,12 +1,19 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { userModel } = require("../Models/user.model");
+const cloudinary = require('cloudinary')
 const jwt = require('jsonwebtoken')
 require("dotenv").config();
 const SECRET = process.env.JWT_SECRET
 const getRes = (req, res) => {
   res.json({ message: `IT'S RESPONDING` });
 };
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET
+});
 
 const signup = (req, res) => {
   console.log(req.body);
@@ -110,11 +117,23 @@ const authorizeFunc=(req, res)=>{
       }
     })
 }
+const uploadUserPicture=(req, res)=>{
+  const userDet = req.body
+  cloudinary.v2.uploader.upload(userDet.fileUrl, function(err, result){
+    if(err){
+      console.log(err);
+    }else{
+      console.log(result);
+    }
+  })
+ 
+}
 
 module.exports = {
   getRes,
   signup,
   signin,
   googleCallback,
-  authorizeFunc
+  authorizeFunc,
+  uploadUserPicture
 };

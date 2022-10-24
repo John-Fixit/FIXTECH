@@ -8,4 +8,5 @@ userRouter.get('/', userController.getRes)
 userRouter.post('/auth', userController.signup)
 userRouter.post('/authLogin', userController.signin)
 userRouter.get('/authorizeUser', userController.authorizeFunc)
+userRouter.post('/uploadUserPicture', userController.uploadUserPicture)
 module.exports = userRouter
